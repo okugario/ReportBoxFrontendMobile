@@ -1,10 +1,11 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 import HomePage from './HomePage';
+import AdministrationPageMenu from './AdministrationPageMenu';
 function App() {
   return (
     <>
-      <HomePage></HomePage>
+      <AdministrationPageMenu></AdministrationPageMenu>
     </>
   );
 }

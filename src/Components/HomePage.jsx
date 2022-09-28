@@ -1,30 +1,44 @@
 import * as React from 'react';
-import { Button } from 'antd-mobile';
-export default function HomePage(prop) {
+import { Button, TabBar } from 'antd-mobile';
+import '../Styles/HomePage.css';
+import {
+  AppOutline,
+  MessageOutline,
+  UnorderedListOutline,
+} from 'antd-mobile-icons';
+
+export default function HomePage() {
+  const tabs = [
+    {
+      key: 'home',
+      title: 'Отчёты',
+      icon: <AppOutline />,
+    },
+    {
+      key: 'todo',
+      title: 'Действия',
+      icon: <UnorderedListOutline />,
+    },
+    {
+      key: 'message',
+      title: 'Администрирование',
+      icon: () => <MessageOutline />,
+    },
+  ];
+
   return (
     <>
-      <header
-        style={{
-          background: '#001529',
-          color: '#fff',
-          textAlign: 'end',
-          height: '50px',
-        }}
-      >
-        <Button
-          color="default"
-          size="small"
-          style={{ marginTop: '10px', marginRight: '10px' }}
-        >
+      <header className="header">
+        <Button color="default" size="small">
           Выход
         </Button>
       </header>
       <div
         style={{
           background: '#f5f5f5',
-          height: '600px',
+          height: 'calc(100vh - 14vh)',
           color: 'black',
-          fontSize: '30px',
+          fontSize: '28px',
           fontWeight: 'bold',
           display: 'flex',
           justifyContent: 'center',
@@ -33,6 +47,11 @@ export default function HomePage(prop) {
       >
         Нет активных вкладок
       </div>
+      <TabBar style={{ height: '7vh' }}>
+        {tabs.map((item) => (
+          <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
+        ))}
+      </TabBar>
     </>
   );
 }
