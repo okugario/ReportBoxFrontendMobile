@@ -1,36 +1,40 @@
 import { makeAutoObservable } from 'mobx';
-import {
-  AppOutline,
-  MessageOutline,
-  UnorderedListOutline,
-} from 'antd-mobile-icons';
-import React from 'react';
+import SettingTab from '../Classes/SettingsTab';
+import ReportTab from '../Classes/ReportTab';
 class GlobalStore {
-  OpenTabs = [
-    {
-      key: 'home',
-      title: 'Отчёты',
-      icon: <AppOutline />,
-    },
-    {
-      key: 'todo',
-      title: 'Действия',
-      icon: <UnorderedListOutline />,
-    },
-    {
-      key: 'message',
-      title: 'Администрирование',
-      icon: <MessageOutline />,
-    },
-  ];
+  OpenTabs = [];
   CurrentTabKey = null;
 
   constructor() {
     makeAutoObservable(this);
   }
 
+  SetNewApplicationMenu(NewOpenTabs) {
+    this.OpenTabs = NewOpenTabs;
+  }
+
   SetNewCurrentTabKey(NewKey) {
     this.CurrentTabKey = NewKey;
+  }
+
+  AddTab(TabObject) {
+    switch (TabObject.Id) {
+      case 'Settings':
+        this.OpenTabs.push(new SettingTab(TabObject, this.OpenTabs));
+        break;
+    }
+    if (this.OpenTabs.length == 1) {
+      this.CurrentTabKey = this.OpenTabs[0].Key;
+    }
+  }
+  get GetCurrentTab() {
+    if (this.OpenTabs.length > 0) {
+      return this.OpenTabs.find((Tab) => {
+        return Tab.Key == this.CurrentTabKey;
+      });
+    } else {
+      return null;
+    }
   }
 }
 const Store = new GlobalStore();

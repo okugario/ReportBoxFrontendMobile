@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import GlobalStore from '../GlobalStore/GlobalStore';
 import { observer, Provider } from 'mobx-react';
 import { Button, TabBar } from 'antd-mobile';
 import '../Styles/App.css';
+import './AggregatesTypes';
+import AggregatesTypes from './AggregatesTypes';
+import { ApiFetch } from '../Helpers/Helpers';
 const App = observer(() => {
+  const RequestApplicationMenu = () => {
+    ApiFetch(
+      'api/configuration/GetApplicationMenu',
+      'GET',
+      undefined,
+      (Response) => {
+        GlobalStore.SetNewApplicationMenu(Response.Data);
+      }
+    );
+  };
+  useEffect(() => {
+    RequestApplicationMenu();
+  }, []);
   return (
     <Provider GlobalStore={GlobalStore}>
       <header className="header">
@@ -12,7 +28,20 @@ const App = observer(() => {
           Выход
         </Button>
       </header>
-      <div className="middle">Нет активных вкладок</div>
+      <div>
+        {GlobalStore.OpenTabs.map((MenuElement) => {
+          return (
+            <Button
+              key={MenuElement.Id}
+              onClick={() => {
+                GlobalStore.AddTab(MenuElement);
+              }}
+            >
+              {MenuElement.Caption}
+            </Button>
+          );
+        })}
+      </div>
       <TabBar
         activeKey={GlobalStore.CurrentTabKey}
         style={{ height: '7vh' }}
@@ -20,13 +49,11 @@ const App = observer(() => {
           GlobalStore.SetNewCurrentTabKey(Key);
         }}
       >
-        {GlobalStore.OpenTabs.map((item) => {
-          return (
-            <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
-          );
+        {GlobalStore.OpenTabs.map((Tab) => {
+          return <TabBar.Item key={Tab.Id} title={Tab.Caption} />;
         })}
       </TabBar>
     </Provider>
   );
 });
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('App'));

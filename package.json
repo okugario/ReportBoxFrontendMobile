@@ -17,13 +17,16 @@
     "babel": "^6.23.0",
     "babel-loader": "^8.2.5",
     "css-loader": "^6.7.1",
-    "style-loader": "^3.3.1"
+    "style-loader": "^3.3.1",
+    "styled-components": "^5.3.6"
   },
   "dependencies": {
     "antd-mobile": "^5.24.0",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
     "mobx": "^6.6.2",
-    "mobx-react": "^7.5.3"
+    "mobx-react": "^7.5.3",
+    "moment": "^2.29.4",
+    "nanoid": "^4.0.0",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0"
   }
 }
